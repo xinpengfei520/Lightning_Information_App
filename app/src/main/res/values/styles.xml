@@ -8,4 +8,17 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="bottom_menu_button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@android:color/white</item>
+        <item name="android:button">@android:color/transparent</item>
+        <item name="android:drawablePadding">1dp</item>
+        <item name="android:paddingBottom">3dp</item>
+        <item name="android:textSize">15dp</item>
+        <item name="android:textColor">@drawable/rb_text_color</item>
+    </style>
+
 </resources>
