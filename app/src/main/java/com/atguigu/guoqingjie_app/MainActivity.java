@@ -1,9 +1,11 @@
 package com.atguigu.guoqingjie_app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -52,6 +54,15 @@ public class MainActivity extends FragmentActivity {
     }
 
     /**
+     * 点击搜索按钮的回调
+     * @param v
+     */
+    public void iv_search(View v) {
+
+        startActivity(new Intent(this,SearchActivity.class));
+    }
+
+    /**
      * 获取对应位置的Fragment
      *
      * @param position
@@ -80,19 +91,19 @@ public class MainActivity extends FragmentActivity {
             switch (checkedId) {
                 case R.id.rb_news:
                     position = 0;
-                    tv_title.setText("新闻");
+                    tv_title.setText("新 闻");
                     break;
                 case R.id.rb_beauty:
                     position = 1;
-                    tv_title.setText("美图");
+                    tv_title.setText("美 图");
                     break;
                 case R.id.rb_video:
                     position = 2;
-                    tv_title.setText("视频");
+                    tv_title.setText("视 频");
                     break;
                 case R.id.rb_about:
                     position = 3;
-                    tv_title.setText("关于");
+                    tv_title.setText("关 于");
                     break;
             }
             Fragment toFragment = getFragment(position);

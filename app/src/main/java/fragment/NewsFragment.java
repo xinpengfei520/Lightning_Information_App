@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -18,7 +19,6 @@ import com.atguigu.guoqingjie_app.R;
 import java.util.ArrayList;
 
 import utils.DensityUtil;
-import utils.LogUtil;
 
 /**
  * Created by xinpengfei on 2016/10/4.
@@ -33,6 +33,7 @@ public class NewsFragment extends BaseFragment {
     private TextView tv_msg;
     private LinearLayout ll_group_point;
     private MyPagerAdapter adapter;
+    private ListViewAdaper lv_adapter;
     /**
      * 上一次被高亮显示的位置
      */
@@ -80,16 +81,35 @@ public class NewsFragment extends BaseFragment {
      */
     @Override
     public View initView() {
-        LogUtil.e("本地视频UI创建了");
+        Log.e("TAG", "本地视频UI创建了");
         View view = View.inflate(context, R.layout.activity_newsfragment, null);
         viewpager = (ViewPager) view.findViewById(R.id.viewpager);
         lv_fg_news = (ListView) view.findViewById(R.id.lv_fg_news);
         tv_msg = (TextView) view.findViewById(R.id.tv_msg);
         ll_group_point = (LinearLayout) view.findViewById(R.id.ll_group_point);
+        lv_fg_news = (ListView) view.findViewById(R.id.lv_fg_news);
 
         initViewPager();
+        initListView();
 
         return view;
+
+    }
+
+    /**
+     * 初始化ListView
+     */
+    private void initListView() {
+
+        initNewsData();
+        lv_adapter = new ListViewAdaper();
+        lv_fg_news.setAdapter(lv_adapter);
+    }
+
+    /**
+     * 初始化ListView中的新闻数据
+     */
+    private void initNewsData() {
 
     }
 
@@ -308,6 +328,28 @@ public class NewsFragment extends BaseFragment {
         public void destroyItem(ViewGroup container, int position, Object object) {
 
             container.removeView((View) object);
+        }
+    }
+
+    private class ListViewAdaper extends BaseAdapter {
+        @Override
+        public int getCount() {
+            return 0;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            return null;
         }
     }
 }
