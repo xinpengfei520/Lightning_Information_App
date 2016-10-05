@@ -5,9 +5,11 @@
     android:background="@android:color/white">
 
     <ImageView
+        android:id="@+id/iv_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:onClick="iv_menu"
         android:src="@drawable/menu_button" />
 
     <TextView
@@ -26,8 +28,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_margin="8dp"
-        android:src="@drawable/search_button"
-        android:onClick="iv_search"/>
+        android:onClick="iv_search"
+        android:src="@drawable/search_button" />
 
     <TextView
         android:layout_width="match_parent"

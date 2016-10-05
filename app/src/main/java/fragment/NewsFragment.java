@@ -18,6 +18,7 @@ import com.atguigu.guoqingjie_app.R;
 
 import java.util.ArrayList;
 
+import bean.News;
 import utils.DensityUtil;
 
 /**
@@ -34,6 +35,7 @@ public class NewsFragment extends BaseFragment {
     private LinearLayout ll_group_point;
     private MyPagerAdapter adapter;
     private ListViewAdaper lv_adapter;
+    private ArrayList<News> list;
     /**
      * 上一次被高亮显示的位置
      */
@@ -111,6 +113,8 @@ public class NewsFragment extends BaseFragment {
      */
     private void initNewsData() {
 
+        list = new ArrayList<>();
+//        list.add();
     }
 
     private void initViewPager() {

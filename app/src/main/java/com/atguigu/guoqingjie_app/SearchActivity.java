@@ -37,6 +37,14 @@ public class SearchActivity extends Activity {
         }
     }
 
+    /**
+     * 点击取消的回调
+     * @param v
+     */
+    public void cancel(View v) {
+        finish();
+    }
+
     private class inputLetterChangerListener implements TextWatcher {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {

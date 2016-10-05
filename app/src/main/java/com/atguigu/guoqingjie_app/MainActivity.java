@@ -54,12 +54,22 @@ public class MainActivity extends FragmentActivity {
     }
 
     /**
+     * 点击左上角菜单按钮的回调
+     *
+     * @param v
+     */
+    public void iv_menu(View v) {
+
+    }
+
+    /**
      * 点击搜索按钮的回调
+     *
      * @param v
      */
     public void iv_search(View v) {
 
-        startActivity(new Intent(this,SearchActivity.class));
+        startActivity(new Intent(this, SearchActivity.class));
     }
 
     /**

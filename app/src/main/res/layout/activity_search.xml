@@ -18,15 +18,15 @@
             android:id="@+id/et_input"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:background="@drawable/et_search"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/et_search"
             android:hint="搜索"
             android:paddingLeft="10dp"
             android:paddingRight="35dp"
-            android:singleLine="true"/>
+            android:singleLine="true" />
 
         <ImageView
             android:id="@+id/iv_delete"
@@ -34,10 +34,21 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-            android:src="@drawable/delete"
+            android:layout_marginRight="50dp"
             android:onClick="delete"
-            android:visibility="gone"/>
+            android:src="@drawable/delete"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:clickable="true"
+            android:onClick="cancel"
+            android:text="取消"
+            android:textSize="16dp" />
     </RelativeLayout>
 
 </LinearLayout>
