@@ -48,7 +48,10 @@ public class NewsFragment extends BaseFragment {
     private LinearLayout ll_group_point;
     private LinearLayout ll_loading;
     private MyPagerAdapter adapter;
-    private NewsAdapter news_adapter;
+    private NewsAdapter news_adapter;//装新闻数据的适配器
+    /**
+     * 用于存放新闻类对象的集合
+     */
     private List<Data> list;
     /**
      * 上一次被高亮显示的位置
@@ -67,11 +70,11 @@ public class NewsFragment extends BaseFragment {
      * 图片标题集合
      */
     private final String[] imageDescriptions = {
-            "尚硅谷波河争霸赛！",
-            "凝聚你我，放飞梦想！",
-            "抱歉没座位了！",
-            "7月就业名单全部曝光！",
-            "平均起薪11345元"
+            "游客挤爆西安大雁塔音乐喷泉！",
+            "北京天坛公园迎来游园高峰",
+            "南京市民抠出葵花表情宝典",
+            "贵州乌公侗寨欢庆烧鱼节",
+            "男子为疯狂健身注射燃油"
     };
     /**
      * 当前Activity是否销毁
@@ -148,7 +151,7 @@ public class NewsFragment extends BaseFragment {
      */
     private void initNewsData() {
 
-//        list = new ArrayList<>();
+        list = new ArrayList<>();
 
         //联网操作的过程：第2步：分线程：联网下载数据
         new Thread() {
@@ -247,7 +250,7 @@ public class NewsFragment extends BaseFragment {
 
                     int position = (int) v.getTag();//把tag转换为位置
                     String text = imageDescriptions[position];//获取图片标题并显示
-                    Toast.makeText(context, "text = " + text, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,text, Toast.LENGTH_SHORT).show();
                 }
             });
 
