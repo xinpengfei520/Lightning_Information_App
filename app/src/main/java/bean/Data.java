@@ -6,23 +6,23 @@ package bean;
  * Function :News类
  */
 
-public class News {
+public class Data {
 
-    private String title;
-    private String date;
-    private String author_name;
-    private String thumbnail_pic_s;
-    private String thumbnail_pic_s02;
-    private String thumbnail_pic_s03;
-    private String url;
-    private String uniquekey;
-    private String type;
-    private String realtype;
+    private String title;//标题
+    private String date;//时间
+    private String author_name;//作者
+    private String thumbnail_pic_s;//图片1
+    private String thumbnail_pic_s02;//图片2
+    private String thumbnail_pic_s03;//图片3
+    private String url;//新闻链接
+    private String uniquekey;//唯一标识
+    private String type;//类型1
+    private String realtype;//类型2
 
-    public News() {
+    public Data() {
     }
 
-    public News(String title, String date, String author_name, String thumbnail_pic_s, String thumbnail_pic_s02, String thumbnail_pic_s03, String url, String uniquekey, String type, String realtype) {
+    public Data(String title, String date, String author_name, String thumbnail_pic_s, String thumbnail_pic_s02, String thumbnail_pic_s03, String url, String uniquekey, String type, String realtype) {
         this.title = title;
         this.date = date;
         this.author_name = author_name;
@@ -117,7 +117,7 @@ public class News {
 
     @Override
     public String toString() {
-        return "News{" +
+        return "Data{" +
                 "title='" + title + '\'' +
                 ", date='" + date + '\'' +
                 ", author_name='" + author_name + '\'' +

@@ -26,46 +26,47 @@ public class ImageLoader {
     private int loading;
     private int error;
 
-    private Map<String,Bitmap> bitmapCache = new HashMap<String,Bitmap>();
+    private Map<String, Bitmap> bitmapCache = new HashMap<String, Bitmap>();
 
-    public ImageLoader(Context context,int loading,int error){
+    public ImageLoader(Context context, int loading, int error) {
         this.context = context;
         this.loading = loading;
         this.error = error;
     }
 
     //加载图片
-    public void loadImage(String imagePath,ImageView iv_item_icon){
+    public void loadImage(String imagePath, ImageView iv_item_pic) {
 
         //给每一个ImageView设置唯一的tag
-        iv_item_icon.setTag(imagePath);
+        iv_item_pic.setTag(imagePath);
 
 
         //考虑一级缓存
         Bitmap bitmap = fromFirstCache(imagePath);
-        if(bitmap != null){
-            iv_item_icon.setImageBitmap(bitmap);
-            return ;
+        if (bitmap != null) {
+            iv_item_pic.setImageBitmap(bitmap);
+            return;
         }
 
         //二级缓存
         bitmap = fromSecondCache(imagePath);
-        if(bitmap != null){
-            iv_item_icon.setImageBitmap(bitmap);
+        if (bitmap != null) {
+            iv_item_pic.setImageBitmap(bitmap);
             //缓存到一级缓存
             bitmapCache.put(imagePath, bitmap);
-            return ;
+            return;
         }
         //三级缓存
-        fromThirdCache(imagePath,iv_item_icon);
+        fromThirdCache(imagePath, iv_item_pic);
 
     }
+
     //三级缓存：使用异步任务(AsyncTask)实现
-    public void fromThirdCache(final String imagePath,final ImageView iv_item_icon){
+    public void fromThirdCache(final String imagePath, final ImageView iv_item_pic) {
         new AsyncTask<Void, Void, Bitmap>() {
             //联网操作的第1步
             protected void onPreExecute() {
-                iv_item_icon.setImageResource(loading);
+                iv_item_pic.setImageResource(loading);
 
             }
 
@@ -74,8 +75,8 @@ public class ImageLoader {
             protected Bitmap doInBackground(Void... params) {
 
                 //判断当前的url与要联网的url是否一致，如果不一致。表明是旧的url地址，则不需要联网下载数据
-                String currentUrl = (String) iv_item_icon.getTag();
-                if(currentUrl != imagePath){
+                String currentUrl = (String) iv_item_pic.getTag();
+                if (currentUrl != imagePath) {
                     return null;
                 }
 
@@ -91,7 +92,7 @@ public class ImageLoader {
                     conn.connect();
 
                     int responseCode = conn.getResponseCode();
-                    if(responseCode == 200){
+                    if (responseCode == 200) {
                         is = conn.getInputStream();//图片资源对应的输入流
                         Bitmap bitmap = BitmapFactory.decodeStream(is);
 
@@ -104,20 +105,20 @@ public class ImageLoader {
                         //filePath:即为保存到的本地文件的绝对路径
                         String filePath = context.getExternalFilesDir(null) + "/" + fileName;
                         //如何将内存中的图片对象保存为硬盘中的一个图片文件
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100,new FileOutputStream(filePath));
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(filePath));
 
                         return bitmap;
-                    }else{
+                    } else {
                         return null;
                     }
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
-                }finally{
-                    if(conn != null){
+                } finally {
+                    if (conn != null) {
                         conn.disconnect();
                     }
-                    if(is != null){
+                    if (is != null) {
                         try {
                             is.close();
                         } catch (IOException e) {
@@ -129,22 +130,23 @@ public class ImageLoader {
 
                 return null;
             }
+
             //联网操作的第3步：主线程更新界面
             protected void onPostExecute(Bitmap result) {
 
                 //判断要显示的图片（路径imagePath）是否是当前imageView要加载的图片(路径currentUrl)
-                String currentUrl = (String) iv_item_icon.getTag();
-                if(currentUrl != imagePath){
+                String currentUrl = (String) iv_item_pic.getTag();
+                if (currentUrl != imagePath) {
                     return;
                 }
 
 
-                if(result != null){//正确的获取到了服务器端发送的数据
+                if (result != null) {//正确的获取到了服务器端发送的数据
                     //显示图片
-                    iv_item_icon.setImageBitmap(result);
+                    iv_item_pic.setImageBitmap(result);
 
-                }else{//①联网失败②联网成功，资源不存在等
-                    iv_item_icon.setImageResource(error);
+                } else {//①联网失败②联网成功，资源不存在等
+                    iv_item_pic.setImageResource(error);
                 }
             }
         }.execute();
@@ -156,7 +158,7 @@ public class ImageLoader {
      *
      * 本地图片文件的路径：storage/sdcard/Android/data/应用包名/files/f17.jpg
      */
-    public Bitmap fromSecondCache(String imagePath){
+    public Bitmap fromSecondCache(String imagePath) {
 
         String fileName = imagePath.substring(imagePath.lastIndexOf("/") + 1);
 
@@ -168,7 +170,7 @@ public class ImageLoader {
     }
 
     //一级缓存
-    public Bitmap fromFirstCache(String imagePath){
+    public Bitmap fromFirstCache(String imagePath) {
         return bitmapCache.get(imagePath);
 
     }

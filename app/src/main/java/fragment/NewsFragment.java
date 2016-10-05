@@ -15,10 +15,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.atguigu.guoqingjie_app.R;
+import com.google.gson.Gson;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
-import bean.News;
+import bean.Data;
+import bean.ImageLoader;
+import bean.Result;
+import bean.Root;
 import utils.DensityUtil;
 
 /**
@@ -29,13 +39,17 @@ import utils.DensityUtil;
 
 public class NewsFragment extends BaseFragment {
 
+    private static final int MESSAGE_RESULT_OK = 1;
+    private static final int MESSAGE_RESULT_ERROR = 2;
+    private static final int MESSAGE_RESULT_NO = 3;
     private ViewPager viewpager;
     private ListView lv_fg_news;
     private TextView tv_msg;
     private LinearLayout ll_group_point;
+    private LinearLayout ll_loading;
     private MyPagerAdapter adapter;
-    private ListViewAdaper lv_adapter;
-    private ArrayList<News> list;
+    private NewsAdapter news_adapter;
+    private List<Data> list;
     /**
      * 上一次被高亮显示的位置
      */
@@ -76,6 +90,30 @@ public class NewsFragment extends BaseFragment {
         }
     };
 
+    private Handler handler2 = new Handler() {
+        //处理消息
+        public void handleMessage(android.os.Message msg) {
+            switch (msg.what) {
+                case MESSAGE_RESULT_OK:
+                    ll_loading.setVisibility(View.GONE);//移除加载视图
+
+                    //显示列表
+                    lv_fg_news.setAdapter(news_adapter);
+                    break;
+
+                case MESSAGE_RESULT_ERROR:
+                    Toast.makeText(context, "资源找不到", Toast.LENGTH_SHORT).show();
+                    ll_loading.setVisibility(View.GONE);//移除加载视图
+                    break;
+
+                case MESSAGE_RESULT_NO:
+                    Toast.makeText(context, "连接失败", Toast.LENGTH_SHORT).show();
+                    ll_loading.setVisibility(View.GONE);//移除加载视图
+                    break;
+            }
+        }
+    };
+
     /**
      * 初始化视图
      *
@@ -90,22 +128,19 @@ public class NewsFragment extends BaseFragment {
         tv_msg = (TextView) view.findViewById(R.id.tv_msg);
         ll_group_point = (LinearLayout) view.findViewById(R.id.ll_group_point);
         lv_fg_news = (ListView) view.findViewById(R.id.lv_fg_news);
+        ll_loading = (LinearLayout) view.findViewById(R.id.ll_loading);
+
+        //联网操作的过程:第1步：主线程：显示提示视图
+        ll_loading.setVisibility(View.VISIBLE);
+        news_adapter = new NewsAdapter();
 
         initViewPager();
-        initListView();
+        initNewsData();
+        lv_fg_news.setAdapter(news_adapter);
+//        news_adapter.notifyDataSetChanged();
 
         return view;
 
-    }
-
-    /**
-     * 初始化ListView
-     */
-    private void initListView() {
-
-        initNewsData();
-        lv_adapter = new ListViewAdaper();
-        lv_fg_news.setAdapter(lv_adapter);
     }
 
     /**
@@ -113,8 +148,87 @@ public class NewsFragment extends BaseFragment {
      */
     private void initNewsData() {
 
-        list = new ArrayList<>();
-//        list.add();
+//        list = new ArrayList<>();
+
+        //联网操作的过程：第2步：分线程：联网下载数据
+        new Thread() {
+            public void run() {
+                String path = "http://v.juhe.cn/toutiao/index?type=top&key=2a0f1ffbb5dba8795809d1da60a2baa6";
+                HttpURLConnection conn = null;
+                ByteArrayOutputStream baos = null;
+                InputStream is = null;
+                try {
+                    URL url = new URL(path);
+                    conn = (HttpURLConnection) url.openConnection();
+
+                    conn.setConnectTimeout(5000);
+                    conn.setReadTimeout(5000);
+                    conn.setRequestMethod("GET");
+
+                    conn.connect();
+
+                    int responseCode = conn.getResponseCode();
+                    Log.e("TAG", responseCode + "");
+                    if (responseCode == 200) {
+                        is = conn.getInputStream();
+                        baos = new ByteArrayOutputStream();
+                        byte[] buffer = new byte[1024];
+                        int len;
+                        while ((len = is.read(buffer)) != -1) {
+                            baos.write(buffer, 0, len);
+                        }
+                        //从服务器端返回的json数组的字符串
+                        String result = baos.toString();
+                        Log.e("TAGA", result);
+                        //使用GSON解析，还原为java对象构成的集合
+                        Gson gson = new Gson();
+                        //初始化list
+//                        list = gson.fromJson(result, new TypeToken<List<Root>>() {
+//                        }.getType());
+                        Root root = gson.fromJson(result,Root.class);
+                        Result result1 = root.getResult();
+                        list = result1.getData();
+
+                        //发送消息：
+                        handler2.sendEmptyMessage(MESSAGE_RESULT_OK);
+                    } else {
+                        //发送消息：
+                        handler2.sendEmptyMessage(MESSAGE_RESULT_ERROR);
+
+                    }
+
+
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                    //发送消息
+                    handler2.sendEmptyMessage(MESSAGE_RESULT_NO);
+                } finally {
+                    if (conn != null) {
+                        conn.disconnect();
+                    }
+                    if (is != null) {
+                        try {
+                            is.close();
+                        } catch (IOException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    }
+                    if (baos != null) {
+                        try {
+                            baos.close();
+                        } catch (IOException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+            }
+
+
+        }.start();
     }
 
     private void initViewPager() {
@@ -335,15 +449,22 @@ public class NewsFragment extends BaseFragment {
         }
     }
 
-    private class ListViewAdaper extends BaseAdapter {
+    private class NewsAdapter extends BaseAdapter {
+
+        private ImageLoader imageLoader;
+
+        public NewsAdapter() {
+            imageLoader = new ImageLoader(context, R.drawable.loading, R.drawable.error);
+        }
+
         @Override
         public int getCount() {
-            return 0;
+            return list.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return null;
+            return list.get(position);
         }
 
         @Override
@@ -353,7 +474,25 @@ public class NewsFragment extends BaseFragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            return null;
+
+            if (convertView == null) {
+                convertView = View.inflate(context, R.layout.item_news, null);
+            }
+            ImageView iv_item_pic = (ImageView) convertView.findViewById(R.id.iv_item_pic);
+            TextView tv_item_title = (TextView) convertView.findViewById(R.id.tv_item_title);
+            TextView tv_item_top = (TextView) convertView.findViewById(R.id.tv_item_top);
+            TextView tv_item_date = (TextView) convertView.findViewById(R.id.tv_item_date);
+
+            Data data = list.get(position);
+
+            tv_item_title.setText(data.getTitle());
+            tv_item_top.setText(data.getType());
+            tv_item_date.setText(data.getDate());
+
+            //加载图片
+            imageLoader.loadImage(data.getThumbnail_pic_s(), iv_item_pic);
+
+            return convertView;
         }
     }
 }
