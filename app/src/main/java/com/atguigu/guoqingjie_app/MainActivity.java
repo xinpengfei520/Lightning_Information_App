@@ -2,12 +2,17 @@ package com.atguigu.guoqingjie_app;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -22,6 +27,10 @@ public class MainActivity extends FragmentActivity {
     private TextView tv_title;
     private RadioGroup rg_main;
     /**
+     * 判断按键是否被按下
+     */
+    private boolean flag = true;
+    /**
      * 各个Fragemnt页面的集合
      */
     private ArrayList<BaseFragment> fragments;
@@ -35,6 +44,18 @@ public class MainActivity extends FragmentActivity {
      * 当前显示的Fragment
      */
     private Fragment content;
+    private Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
+
+            switch (msg.what) {
+                case 1:
+                    flag = true;
+                    Log.e("TAG", "handleMessage()");
+                    break;
+            }
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,6 +171,33 @@ public class MainActivity extends FragmentActivity {
             }
             content = toFragment;//当前显示的Fragment
         }
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+
+        if (flag) {
+            flag = false;
+            Toast.makeText(MainActivity.this, "再点击一次返回键退出", Toast.LENGTH_SHORT).show();
+            //发送一个延迟消息
+
+            handler.sendEmptyMessageDelayed(1, 2000);
+            return true;
+        }
+
+        return super.onKeyUp(keyCode, event);
+    }
+
+    @Override
+    protected void onDestroy() {
+
+        Log.e("TAG", "onDestroy()");
+        //方式一：
+        handler.removeMessages(1);
+        //方式二：移除所有消息和回调
+//      handler.removeCallbacksAndMessages(null);
+
+        super.onDestroy();
     }
 
 }
