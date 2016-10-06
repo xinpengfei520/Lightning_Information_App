@@ -3,13 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include layout="@layout/activity_fresh"></include>
+
     <include layout="@layout/viewpager"></include>
 
     <ListView
         android:id="@+id/lv_fg_news"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rl_viewpager"/>
+        android:layout_below="@+id/rl_viewpager" />
 
     <LinearLayout
         android:id="@+id/ll_loading"

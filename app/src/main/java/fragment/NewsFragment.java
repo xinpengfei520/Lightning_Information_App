@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,7 +34,11 @@ import bean.Data;
 import bean.ImageLoader;
 import bean.Result;
 import bean.Root;
+import fresh.MyListener;
+import fresh.PullToRefreshLayout;
 import utils.DensityUtil;
+
+;
 
 /**
  * Created by xinpengfei on 2016/10/4.
@@ -55,6 +60,7 @@ public class NewsFragment extends BaseFragment {
     private RelativeLayout rl_viewpager;
     private MyPagerAdapter adapter;
     private NewsAdapter news_adapter;//装新闻数据的适配器
+    private PullToRefreshLayout ptrl;
     /**
      * 用于存放新闻类对象的集合
      */
@@ -142,6 +148,7 @@ public class NewsFragment extends BaseFragment {
         ll_loading = (LinearLayout) view.findViewById(R.id.ll_loading);
         ll_fail = (LinearLayout) view.findViewById(R.id.ll_fail);
         rl_viewpager = (RelativeLayout) view.findViewById(R.id.rl_viewpager);
+        ptrl = ((PullToRefreshLayout) view.findViewById(R.id.refresh_view));
 
         //联网操作的过程:第1步：主线程：显示提示视图
         ll_loading.setVisibility(View.VISIBLE);
@@ -154,6 +161,17 @@ public class NewsFragment extends BaseFragment {
         initNewsData();
         lv_fg_news.setOnItemClickListener(new MyOnItemClickListener());
 
+        ptrl.setOnRefreshListener(new MyListener());
+        lv_fg_news.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view,
+                                           int position, long id) {
+
+                return true;
+            }
+        });
+
         return view;
 
     }
@@ -163,8 +181,8 @@ public class NewsFragment extends BaseFragment {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             String url = list.get(position).getUrl();
-            Intent intent = new Intent(context,NewDetails.class);
-            intent.putExtra("url",url);
+            Intent intent = new Intent(context, NewDetails.class);
+            intent.putExtra("url", url);
             startActivity(intent);
 
         }
