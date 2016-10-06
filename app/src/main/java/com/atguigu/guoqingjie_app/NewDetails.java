@@ -164,4 +164,20 @@ public class NewDetails extends Activity {
         return baos.toString();
 
     }
+
+    /**
+     * 返回按钮的回调
+     * @param v
+     */
+    public void back(View v) {
+        finish();
+    }
+
+    /**
+     * 分享按钮的回调
+     * @param v
+     */
+    public void share(View v) {
+        Toast.makeText(NewDetails.this, "分享", Toast.LENGTH_SHORT).show();
+    }
 }
