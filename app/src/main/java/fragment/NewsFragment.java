@@ -1,5 +1,6 @@
 package fragment;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -7,13 +8,16 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.atguigu.guoqingjie_app.NewDetails;
 import com.atguigu.guoqingjie_app.R;
 import com.google.gson.Gson;
 
@@ -47,6 +51,8 @@ public class NewsFragment extends BaseFragment {
     private TextView tv_msg;
     private LinearLayout ll_group_point;
     private LinearLayout ll_loading;
+    private LinearLayout ll_fail;
+    private RelativeLayout rl_viewpager;
     private MyPagerAdapter adapter;
     private NewsAdapter news_adapter;//装新闻数据的适配器
     /**
@@ -107,11 +113,13 @@ public class NewsFragment extends BaseFragment {
                 case MESSAGE_RESULT_ERROR:
                     Toast.makeText(context, "资源找不到", Toast.LENGTH_SHORT).show();
                     ll_loading.setVisibility(View.GONE);//移除加载视图
+//                    ll_fail.setVisibility(View.VISIBLE);
                     break;
 
                 case MESSAGE_RESULT_NO:
                     Toast.makeText(context, "连接失败", Toast.LENGTH_SHORT).show();
                     ll_loading.setVisibility(View.GONE);//移除加载视图
+                    ll_fail.setVisibility(View.VISIBLE);
                     break;
             }
         }
@@ -132,18 +140,34 @@ public class NewsFragment extends BaseFragment {
         ll_group_point = (LinearLayout) view.findViewById(R.id.ll_group_point);
         lv_fg_news = (ListView) view.findViewById(R.id.lv_fg_news);
         ll_loading = (LinearLayout) view.findViewById(R.id.ll_loading);
+        ll_fail = (LinearLayout) view.findViewById(R.id.ll_fail);
+        rl_viewpager = (RelativeLayout) view.findViewById(R.id.rl_viewpager);
 
         //联网操作的过程:第1步：主线程：显示提示视图
         ll_loading.setVisibility(View.VISIBLE);
         news_adapter = new NewsAdapter();
+//
+//        View view2 = LayoutInflater.from(getContext()).inflate(R.layout.viewpager, null);
+//        lv_fg_news.addHeaderView(view2);
 
         initViewPager();
         initNewsData();
-        lv_fg_news.setAdapter(news_adapter);
-//        news_adapter.notifyDataSetChanged();
+        lv_fg_news.setOnItemClickListener(new MyOnItemClickListener());
 
         return view;
 
+    }
+
+    class MyOnItemClickListener implements AdapterView.OnItemClickListener {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            String url = list.get(position).getUrl();
+            Intent intent = new Intent(context,NewDetails.class);
+            intent.putExtra("url",url);
+            startActivity(intent);
+
+        }
     }
 
     /**
@@ -188,7 +212,7 @@ public class NewsFragment extends BaseFragment {
                         //初始化list
 //                        list = gson.fromJson(result, new TypeToken<List<Root>>() {
 //                        }.getType());
-                        Root root = gson.fromJson(result,Root.class);
+                        Root root = gson.fromJson(result, Root.class);
                         Result result1 = root.getResult();
                         list = result1.getData();
 
@@ -250,7 +274,7 @@ public class NewsFragment extends BaseFragment {
 
                     int position = (int) v.getTag();//把tag转换为位置
                     String text = imageDescriptions[position];//获取图片标题并显示
-                    Toast.makeText(context,text, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
                 }
             });
 
