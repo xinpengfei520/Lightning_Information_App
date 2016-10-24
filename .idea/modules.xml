@@ -2,8 +2,18 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/BigBang_demo/BigBang_demo.iml" filepath="$PROJECT_DIR$/BigBang_demo/BigBang_demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GitClub_demo/GitClub_demo.iml" filepath="$PROJECT_DIR$/GitClub_demo/GitClub_demo.iml" />
       <module fileurl="file://$PROJECT_DIR$/GuoQingJie_App.iml" filepath="$PROJECT_DIR$/GuoQingJie_App.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Loading_demo/Loading_demo.iml" filepath="$PROJECT_DIR$/Loading_demo/Loading_demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RefreshListView/RefreshListView.iml" filepath="$PROJECT_DIR$/RefreshListView/RefreshListView.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SlidingMenu_library/SlidingMenu_library.iml" filepath="$PROJECT_DIR$/SlidingMenu_library/SlidingMenu_library.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/loadingviewlib/loadingviewlib.iml" filepath="$PROJECT_DIR$/loadingviewlib/loadingviewlib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nolistadapter-common/nolistadapter-common.iml" filepath="$PROJECT_DIR$/nolistadapter-common/nolistadapter-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nolistadapter-rv/nolistadapter-rv.iml" filepath="$PROJECT_DIR$/nolistadapter-rv/nolistadapter-rv.iml" />
+      <module fileurl="file://$PROJECT_DIR$/recyclertreeview-lib/recyclertreeview-lib.iml" filepath="$PROJECT_DIR$/recyclertreeview-lib/recyclertreeview-lib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xutils/xutils.iml" filepath="$PROJECT_DIR$/xutils/xutils.iml" />
     </modules>
   </component>
 </project>

@@ -9,7 +9,17 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/BigBang_demo" />
+            <option value="$PROJECT_DIR$/GitClub_demo" />
+            <option value="$PROJECT_DIR$/Loading_demo" />
+            <option value="$PROJECT_DIR$/RefreshListView" />
+            <option value="$PROJECT_DIR$/SlidingMenu_library" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/loadingviewlib" />
+            <option value="$PROJECT_DIR$/nolistadapter-common" />
+            <option value="$PROJECT_DIR$/nolistadapter-rv" />
+            <option value="$PROJECT_DIR$/recyclertreeview-lib" />
+            <option value="$PROJECT_DIR$/xutils" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

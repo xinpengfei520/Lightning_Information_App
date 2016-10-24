@@ -5,7 +5,7 @@ android {
     buildToolsVersion "24.0.2"
     defaultConfig {
         applicationId "com.atguigu.guoqingjie_app"
-        minSdkVersion 16
+        minSdkVersion 18
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
@@ -27,4 +27,9 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.0'
     testCompile 'junit:junit:4.12'
     compile files('libs/gson-2.1.jar')
+    compile project(':RefreshListView')
+    compile project(':xutils')
+    //    compile "com.android.support:support-core-utils:24.2.0"
+    compile 'com.android.support:support-v4:24.2.0'
+    compile project(':SlidingMenu_library')
 }

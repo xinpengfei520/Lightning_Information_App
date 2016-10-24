@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:onClick="iv_menu"
-        android:src="@drawable/menu_button" />
+        android:src="@drawable/menu_button"
+        android:background="@android:color/transparent"/>
 
     <TextView
         android:id="@+id/tv_title"
@@ -29,7 +30,8 @@
         android:layout_alignParentRight="true"
         android:layout_margin="8dp"
         android:onClick="iv_search"
-        android:src="@drawable/search_button" />
+        android:src="@drawable/search_button"
+        android:background="@null"/>
 
     <TextView
         android:layout_width="match_parent"

@@ -10,6 +10,10 @@ import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.widget.RelativeLayout;
 
+import com.atguigu.guoqingjie_app.activity.GuideActivity;
+import com.atguigu.guoqingjie_app.activity.MainActivity;
+import com.atguigu.guoqingjie_app.utils.CacheUtils;
+
 public class WelcomeActivity extends Activity {
 
     private RelativeLayout rl_welcome;
@@ -67,7 +71,15 @@ public class WelcomeActivity extends Activity {
                     @Override
                     public void onAnimationEnd(Animation animation) {
 
-                        startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+                        //当动画播放完成进入--主页面或者引导页面
+                        boolean startMain = CacheUtils.getBoolean(WelcomeActivity.this, GuideActivity.START_MAIN);
+                        if(startMain) {
+
+                            startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+                        }else {
+                            startActivity(new Intent(WelcomeActivity.this, GuideActivity.class));
+                        }
+
                         finish();//在开启一个新的Activity的同时，销毁当前的Activity
                     }
 

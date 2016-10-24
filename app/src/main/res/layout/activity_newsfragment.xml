@@ -3,15 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/activity_fresh"></include>
+    <include layout="@layout/viewpager" />
 
-    <include layout="@layout/viewpager"></include>
-
-    <ListView
-        android:id="@+id/lv_fg_news"
+    <com.atguigu.refreshlistview.RefreshListView
+        android:id="@+id/listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_viewpager" />
+
 
     <LinearLayout
         android:id="@+id/ll_loading"
@@ -49,9 +48,10 @@
         android:visibility="gone">
 
         <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@drawable/loadfail" />
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@null"
+            android:src="@drawable/flower" />
 
         <TextView
             android:layout_width="wrap_content"
