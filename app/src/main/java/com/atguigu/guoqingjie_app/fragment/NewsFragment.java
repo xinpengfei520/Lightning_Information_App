@@ -3,16 +3,13 @@ package com.atguigu.guoqingjie_app.fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,7 +17,13 @@ import android.widget.Toast;
 
 import com.atguigu.guoqingjie_app.R;
 import com.atguigu.guoqingjie_app.activity.NewsDetailActivity;
+import com.atguigu.guoqingjie_app.adapter.MyPagerAdapter;
+import com.atguigu.guoqingjie_app.adapter.NewsDetailsAdapter;
 import com.atguigu.guoqingjie_app.base.BaseFragment;
+import com.atguigu.guoqingjie_app.bean.Data;
+import com.atguigu.guoqingjie_app.bean.Result;
+import com.atguigu.guoqingjie_app.bean.Root;
+import com.atguigu.guoqingjie_app.listener.MyOnPageChangeListener;
 import com.atguigu.guoqingjie_app.utils.CacheUtils;
 import com.atguigu.guoqingjie_app.utils.Constants;
 import com.atguigu.guoqingjie_app.utils.DensityUtil;
@@ -35,14 +38,8 @@ import org.xutils.x;
 import java.util.ArrayList;
 import java.util.List;
 
-import bean.Data;
-import bean.ImageLoader;
-import bean.Result;
-import bean.Root;
-
 /**
  * Created by xinpengfei on 2016/10/4.
- * <p>
  * Function :NewsFragment新闻显示页面
  */
 
@@ -51,6 +48,7 @@ public class NewsFragment extends BaseFragment {
     private static final int MESSAGE_RESULT_OK = 1;
     private static final int MESSAGE_RESULT_ERROR = 2;
     private static final int MESSAGE_RESULT_NO = 3;
+    private static final int IMAGVIEW = 4;
     private ViewPager viewpager;
     private RefreshListView listview;
     private TextView tv_msg;
@@ -58,103 +56,61 @@ public class NewsFragment extends BaseFragment {
     private LinearLayout ll_loading;
     private LinearLayout ll_fail;
     private MyPagerAdapter adapter;
-    private NewsAdapter news_adapter;//装新闻数据的适配器
-    /**
-     * 用于存放新闻类对象的集合
-     */
-    private List<Data> list;
-    /**
-     * 上一次被高亮显示的位置
-     */
-    private int lastIndex;
-
-    /**
-     * 头条新闻(top)的Url
-     */
-    private String topUrl;
-
-    /**
-     * 加载更多的url
-     */
-    private String moreUrl;
-
-    /**
-     * 是否加载更多
-     */
-    private boolean isLoadMore = false;
-
-    /**
-     * 图片的集合 ：可以是ImageView和Fragment，View
-     */
-    private ArrayList<ImageView> imageViews;
-
-    /**
-     * 图片的ID资源
-     */
+    private NewsDetailsAdapter news_adapter; // 装新闻数据的适配器
+    private List<Data> list;          // 用于存放新闻类对象的集合
+    public int lastIndex;             // 上一次被高亮显示的位置
+    private String topUrl;            // 头条新闻(top)的Url
+    private String moreUrl;           // 加载更多的url
+    private boolean isLoadMore = false; // 是否加载更多
+    private boolean isActivityIsDestroy = false; // 当前Activity是否销毁
+    private ArrayList<ImageView> imageViews; // 图片的集合
+    // 图片的ID资源
     private int[] ids = {R.drawable.a, R.drawable.b, R.drawable.c, R.drawable.d, R.drawable.e};
-
-    /**
-     * 图片标题集合
-     */
-    private final String[] imageDescriptions = {
-            "游客挤爆西安大雁塔音乐喷泉！",
+    // 图片标题集合
+    public static final String[] imageDescriptions = {
+            "游客挤爆西安大雁塔音乐喷泉",
             "北京天坛公园迎来游园高峰",
             "南京市民抠出葵花表情宝典",
             "贵州乌公侗寨欢庆烧鱼节",
-            "男子为疯狂健身注射燃油"
-    };
-    /**
-     * 当前Activity是否销毁
-     */
-    private boolean isActivityIsDestroy = false;
+            "男子为疯狂健身注射燃油"};
+
     private Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
 
-            int item = viewpager.getCurrentItem() + 1;
-            viewpager.setCurrentItem(item);
-
-            if (!isActivityIsDestroy) {
-                handler.sendEmptyMessageDelayed(0, 3000);
-            }
-
-        }
-    };
-
-    private Handler handler2 = new Handler() {
-        //处理消息
-        public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case MESSAGE_RESULT_OK:
-                    ll_loading.setVisibility(View.GONE);//移除加载视图
-
-                    //显示列表
+                    // 显示列表
+                    news_adapter = new NewsDetailsAdapter(context, list);
                     listview.setAdapter(news_adapter);
                     break;
 
                 case MESSAGE_RESULT_ERROR:
                     Toast.makeText(context, "资源找不到", Toast.LENGTH_SHORT).show();
-                    ll_loading.setVisibility(View.GONE);//移除加载视图
                     break;
 
                 case MESSAGE_RESULT_NO:
                     Toast.makeText(context, "连接失败", Toast.LENGTH_SHORT).show();
-                    ll_loading.setVisibility(View.GONE);//移除加载视图
                     ll_fail.setVisibility(View.VISIBLE);
                     break;
             }
+            int item = viewpager.getCurrentItem() + 1;
+            viewpager.setCurrentItem(item);
+            if (!isActivityIsDestroy) {
+                handler.sendEmptyMessageDelayed(IMAGVIEW, 3000);
+            }
+            ll_loading.setVisibility(View.GONE); // 移除加载视图
         }
     };
 
 
     /**
      * 初始化视图
-     *
-     * @return
      */
     @Override
     public View initView() {
         Log.e("TAG", "本地新闻UI创建了");
         View view = View.inflate(context, R.layout.activity_newsfragment, null);
+
         View view2 = LayoutInflater.from(getContext()).inflate(R.layout.viewpager, null);
 
         viewpager = (ViewPager) view2.findViewById(R.id.viewpager);
@@ -164,22 +120,20 @@ public class NewsFragment extends BaseFragment {
         ll_loading = (LinearLayout) view.findViewById(R.id.ll_loading);
         ll_fail = (LinearLayout) view.findViewById(R.id.ll_fail);
 
-        //联网操作的过程:第1步：主线程：显示提示视图
+        // 联网操作的过程:第1步：主线程：显示提示视图
         ll_loading.setVisibility(View.VISIBLE);
-        news_adapter = new NewsAdapter();
         listview.addHeaderView(view2);
 
         initViewPager();
         initNewsData();
 
-        //设置点击某条新闻的的点击事件
+        // 设置点击某条新闻的的点击事件
         listview.setOnItemClickListener(new MyOnItemClickListener());
 
-        //设置刷新的监听
+        // 设置刷新的监听
         listview.setOnRefreshListener(new MyOnRefreshListener());
 
         return view;
-
     }
 
     /**
@@ -196,13 +150,13 @@ public class NewsFragment extends BaseFragment {
         public void onLoadeMore() {
 
             if (TextUtils.isEmpty(moreUrl)) {
-                //没有更多
+                // 没有更多
                 Toast.makeText(context, "没有更多数据", Toast.LENGTH_SHORT).show();
                 listview.onFinishRefrsh(false);
             } else {
-                //加载更多
+                // 加载更多
+//                SystemClock.sleep(2000); // 增强加载效果
                 getMoreDataFromNet();
-
             }
         }
     }
@@ -258,7 +212,6 @@ public class NewsFragment extends BaseFragment {
             Intent intent = new Intent(context, NewsDetailActivity.class);
             intent.setData(Uri.parse(url));
             context.startActivity(intent);
-
         }
     }
 
@@ -275,19 +228,19 @@ public class NewsFragment extends BaseFragment {
             @Override
             public void onSuccess(String result) {
                 LogUtil.e("onSuccess==" + result);
-                //把数据缓存到本地
+                // 把数据缓存到本地
                 CacheUtils.putString(context, topUrl, result);
                 processData(result);
                 listview.onFinishRefrsh(false);
-                //发送消息：
-                handler2.sendEmptyMessage(MESSAGE_RESULT_OK);
+                // 发送消息：
+                handler.sendEmptyMessage(MESSAGE_RESULT_OK);
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 LogUtil.e("onError==" + ex.getMessage());
-                //联网失败--> 发送消息
-                handler2.sendEmptyMessage(MESSAGE_RESULT_NO);
+                // 联网失败--> 发送消息
+                handler.sendEmptyMessage(MESSAGE_RESULT_NO);
             }
 
             @Override
@@ -310,47 +263,43 @@ public class NewsFragment extends BaseFragment {
 
         moreUrl = Constants.BASE_URL + Constants.GUONEI + Constants.KEY;
 
-        if(!isLoadMore) {
-
+        if (!isLoadMore) {
             list = new ArrayList<>();
-            //使用GSON解析，还原为java对象构成的集合
+            // 使用GSON解析，还原为java对象构成的集合
             Root root = new Gson().fromJson(result, Root.class);
             Result result1 = root.getResult();
             list = result1.getData();
 
-        }else {
-
+        } else {
             topUrl = moreUrl;
             initData();
-            //加载更多
+            // 加载更多
             isLoadMore = false;
-            //使用GSON解析，还原为java对象构成的集合
+            // 使用GSON解析，还原为java对象构成的集合
             Root root = new Gson().fromJson(result, Root.class);
             Result result1 = root.getResult();
-            //把得到的更多数据加载到原来的集合中
+            // 把得到的更多数据加载到原来的集合中
             list.addAll(result1.getData());
             adapter.notifyDataSetChanged();
-
         }
-
     }
 
     private void initViewPager() {
 
-        //2.准备数据
-        imageViews = new ArrayList<ImageView>();
+        // 2.准备数据
+        imageViews = new ArrayList<>();
         for (int i = 0; i < ids.length; i++) {
 
             ImageView imageView = new ImageView(context);
-            imageView.setTag(i);//把位置设为tag
+            imageView.setTag(i); // 把位置设为tag
             imageView.setBackgroundResource(ids[i]);
-            //给imageView设置点击事件
+            // 给imageView设置点击事件
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    int position = (int) v.getTag();//把tag转换为位置
-                    String text = imageDescriptions[position];//获取图片标题并显示
+                    int position = (int) v.getTag(); // 把tag转换为位置
+                    String text = imageDescriptions[position]; // 获取图片标题并显示
                     Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
                 }
             });
@@ -362,48 +311,45 @@ public class NewsFragment extends BaseFragment {
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         handler.removeCallbacksAndMessages(null);
                         Log.e("TAG", "ACTION_DOWN");
-                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
 
+                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
                         handler.removeCallbacksAndMessages(null);
-                        handler.sendEmptyMessageDelayed(0, 3000);
+                        handler.sendEmptyMessageDelayed(IMAGVIEW, 3000);
                         Log.e("TAG", "ACTION_UP");
                     }
-
                     return false;
                 }
             });
 
-            //加入到集合中
+            // 加入到集合中
             imageViews.add(imageView);
-            initPoint(i);//初始化viewpager中的点
+            initPoint(i); // 初始化viewpager中的点
 
-            adapter = new MyPagerAdapter();//设置适配器
+            adapter = new MyPagerAdapter(imageViews); // 设置适配器
             viewpager.setAdapter(adapter);
 
-            //设置文本为第0个
+            // 设置文本为第0个
             tv_msg.setText(imageDescriptions[0]);
 
-            //设置viewPager页面改变的监听
-            viewpager.addOnPageChangeListener(new MyOnPageChangeListener());
+            // 设置viewPager页面改变的监听
+            viewpager.addOnPageChangeListener(new MyOnPageChangeListener(handler, imageViews, tv_msg, lastIndex, ll_group_point));
 
-            //保证Integer.MAX_VALUE/2是imageViews.size()的整数倍
+            // 保证Integer.MAX_VALUE/2是imageViews.size()的整数倍
             int item = Integer.MAX_VALUE / 2 - (Integer.MAX_VALUE / 2) % imageViews.size();
 
-            //设置中间值
+            // 设置中间值
             viewpager.setCurrentItem(item);
 
-            //开始循环滑动
-            handler.sendEmptyMessageDelayed(0, 3000);
+            // 开始循环滑动
+            handler.sendEmptyMessageDelayed(IMAGVIEW, 3000);
         }
     }
 
     /**
-     * 初始化并创建视图中的点
-     *
-     * @param i
+     * 初始化并创建viewPager视图中的点
      */
     private void initPoint(int i) {
-        //有多少个页面就创建多少个点
+        // 有多少个页面就创建多少个点
         ImageView point = new ImageView(context);
         int widthDp = DensityUtil.dip2px(context, 8);
         Log.e("TAG", widthDp + "");
@@ -415,188 +361,15 @@ public class NewsFragment extends BaseFragment {
         point.setLayoutParams(params);
         point.setBackgroundResource(R.drawable.point_selector);
 
-        //默认第一个点告诉
+        // 默认第一个点告诉
         if (i == 0) {
             point.setEnabled(true);
         } else {
             point.setEnabled(false);
         }
 
-        //添加指示点到线性布局
+        // 添加指示点到线性布局
         ll_group_point.addView(point);
     }
 
-    private class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
-
-        /**
-         * 当页面滚动了的时候回调这个方法(必须掌握)
-         *
-         * @param position             滚动页面的位置
-         * @param positionOffset       当前滑动页面的百分比，例如滑动一半是0.5
-         * @param positionOffsetPixels 当前页面滑动的像素
-         */
-
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            Log.e("TAG", "position=" + position + "," + positionOffset + "," + positionOffsetPixels);
-        }
-
-        /**
-         * 当页面改变了的时候回调这个方法
-         *
-         * @param position 当前被选中页面的位置
-         */
-        @Override
-        public void onPageSelected(int position) {
-
-            int realPosition = position % imageViews.size();
-            String text = imageDescriptions[realPosition];
-            tv_msg.setText(text);
-            //1.把之前的设置为默认
-            ll_group_point.getChildAt(lastIndex).setEnabled(false);
-            //2.把当前的位置对应的页面设置为高亮
-            ll_group_point.getChildAt(realPosition).setEnabled(true);
-            //ll_group_point.getChildAt(position) --->ImageView
-            lastIndex = realPosition;
-
-        }
-
-        /**
-         * 当页面状态发生变化的时候回调这个方法
-         * 静止到滑动
-         * 滑动到静止
-         *
-         * @param state
-         */
-        boolean isDragging = false;
-
-        @Override
-        public void onPageScrollStateChanged(int state) {
-            //正在拖动中...
-            if (state == ViewPager.SCROLL_STATE_DRAGGING) {
-                Log.e("TAG", "正在拖动中...");
-                //移除消息
-                handler.removeCallbacksAndMessages(null);
-                isDragging = true;
-
-                //静止状态中...
-            } else if (state == ViewPager.SCROLL_STATE_IDLE) {
-                Log.e("TAG", "静止状态中...");
-
-                handler.removeCallbacksAndMessages(null);//这个一定要加上
-                handler.sendEmptyMessageDelayed(0, 3000);
-
-                //正在滑动中...
-            } else if (state == ViewPager.SCROLL_STATE_SETTLING && isDragging) {
-                Log.e("TAG", "正在滑动中...");
-                isDragging = false;
-                handler.removeMessages(0);//这个一定要加上
-                handler.sendEmptyMessageDelayed(0, 3000);
-            }
-        }
-    }
-
-    /**
-     * 创建一个继承于PagerAdapter的适配器，至少需要实现4方法
-     */
-    private class MyPagerAdapter extends PagerAdapter {
-
-        //返回总条数
-        @Override
-        public int getCount() {
-            return Integer.MAX_VALUE;//imageViews.size()
-        }
-
-
-        /**
-         * 作用类似于getView();
-         * 把页面添加到ViewPager中
-         * 并且返回当前页面的相关的特性
-         * container:容器就是ViewPager自身
-         * position：实例化当前页面的位置
-         */
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-
-            //1.添加到viewPager中
-            ImageView imageView = imageViews.get(position % imageViews.size());
-            container.addView(imageView);
-
-            //2.并且返回当前页面的相关的特性
-            return imageView;
-        }
-
-        /**
-         * view和object比较是否是同一个View
-         * 如果相同返回true
-         * 不相同返回false
-         * object:其实就是instantiateItem()方法返回的值
-         */
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-
-            return view == object;//此句和上面的相同
-        }
-
-        /**
-         * 销毁container:ViewPager
-         *
-         * @param container
-         * @param position
-         * @param object
-         */
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-
-            container.removeView((View) object);
-        }
-    }
-
-    private class NewsAdapter extends BaseAdapter {
-
-        private ImageLoader imageLoader;
-
-        public NewsAdapter() {
-            imageLoader = new ImageLoader(context, R.drawable.loading, R.drawable.error);
-        }
-
-        @Override
-        public int getCount() {
-            return list.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return list.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            if (convertView == null) {
-                convertView = View.inflate(context, R.layout.item_news, null);
-            }
-            ImageView iv_item_pic = (ImageView) convertView.findViewById(R.id.iv_item_pic);
-            TextView tv_item_title = (TextView) convertView.findViewById(R.id.tv_item_title);
-            TextView tv_item_top = (TextView) convertView.findViewById(R.id.tv_item_top);
-            TextView tv_item_date = (TextView) convertView.findViewById(R.id.tv_item_date);
-
-            Data data = list.get(position);
-
-            tv_item_title.setText(data.getTitle());
-            tv_item_top.setText(data.getType());
-            tv_item_date.setText(data.getDate());
-
-            //加载图片
-            imageLoader.loadImage(data.getThumbnail_pic_s(), iv_item_pic);
-
-            return convertView;
-        }
-    }
 }

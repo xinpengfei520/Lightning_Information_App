@@ -10,7 +10,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#33000000"
+        android:background="#3F51B5"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -48,7 +48,8 @@
             android:clickable="true"
             android:onClick="cancel"
             android:text="取消"
-            android:textSize="16dp" />
+            android:textSize="16dp"
+            android:textColor="@android:color/white"/>
     </RelativeLayout>
 
 </LinearLayout>

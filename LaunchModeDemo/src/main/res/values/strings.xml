@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">LaunchModeDemo</string>
+    <string name="activity_a">Activity A</string>
+    <string name="activity_b">Activity B</string>
+    <string name="activity_c">Activity C</string>
+
+    <string name="btn_start_a_label">Start A</string>
+    <string name="btn_start_b_label">Start B</string>
+    <string name="btn_start_c_label">Start C</string>
+
+    <string name="activity_task">activity所在任务id</string>
+    <string name="activity_instance_list">当前activity实例</string>
+</resources>

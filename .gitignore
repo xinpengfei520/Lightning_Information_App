@@ -5,6 +5,7 @@
 /.idea/libraries
 .DS_Store
 /build
+build
+/.idea
 /captures
 .externalNativeBuild
-/.svn

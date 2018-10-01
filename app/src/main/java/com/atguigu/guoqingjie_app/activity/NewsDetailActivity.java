@@ -10,24 +10,25 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.atguigu.guoqingjie_app.R;
 import com.atguigu.guoqingjie_app.utils.LogUtil;
 
 
-public class NewsDetailActivity extends Activity {
+public class NewsDetailActivity extends Activity implements View.OnClickListener {
 
     private WebView webview;
     private ProgressBar progressbar;
 //    private ImageButton ibMenu;
-//    private TextView tvTitle;
 //    private ImageButton ibBack;
 //    private ImageButton iconShare;
 //    private ImageButton icon_textsize;
 
-    private int tempSize = 2;//正常
+    private int tempSize = 2; // 正常
     private int realSize = tempSize;
     private WebSettings webSettings;
+    private TextView tvBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,7 @@ public class NewsDetailActivity extends Activity {
 
         webview = (WebView) findViewById(R.id.webview);
         progressbar = (ProgressBar) findViewById(R.id.progressbar);
+        tvBack = (TextView) findViewById(R.id.tv_back);
 //        tvTitle = (TextView) findViewById(R.id.tv_title);
 
 //        tvTitle.setVisibility(View.GONE);
@@ -82,7 +84,7 @@ public class NewsDetailActivity extends Activity {
 //        ibMenu.setOnClickListener(this);
 //        ibBack.setOnClickListener(this);
 //        iconShare.setOnClickListener(this);
-//        icon_textsize.setOnClickListener(this);
+        tvBack.setOnClickListener(this);
     }
 
     /**
@@ -160,4 +162,12 @@ public class NewsDetailActivity extends Activity {
     }
 
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tv_back:
+                finish();
+                break;
+        }
+    }
 }

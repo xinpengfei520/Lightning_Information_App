@@ -1,1 +1,3 @@
-include ':app', ':RefreshListView', ':xutils', ':SlidingMenu_library', ':loadingviewlib', ':Loading_demo', ':BigBang_demo', ':GitClub_demo', ':recyclertreeview-lib', ':nolistadapter-rv', ':nolistadapter-common'
+include ':app', ':RefreshListView', ':xutils', ':SlidingMenu_library', ':loadingviewlib', ':Loading_demo', ':RecyclerViewSample', ':EasyRecycler_libary', ':EasyRecyclerView', ':CoordinatorLayoutDemo', ':CoordinatorLayoutDemos-master', ':CoordinatorLayout-master', ':AndroidMVP-master', ':model', ':CodeCafe', ':base', ':adapter', ':gallery', ':api', ':crash', ':MaterialDesignDemo-master', ':themvp', ':TheMVP_demo', ':LaunchModeDemo', ':libqrcode', ':my_app_zxing', ':DialogActivityTest'
+include ':viewPagerText'
+include ':sMS'

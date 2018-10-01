@@ -24,7 +24,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import bean.ImageLoader;
+import com.atguigu.guoqingjie_app.bean.ImageLoader;
 
 import com.atguigu.guoqingjie_app.base.BaseFragment;
 import com.atguigu.guoqingjie_app.domain.Trailers;

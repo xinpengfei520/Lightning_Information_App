@@ -1,0 +1,51 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText 
+        android:id="@+id/PhoneEd"
+        android:inputType="phone"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:hint="@string/PhoneEd"/>
+
+    <EditText 
+        android:id="@+id/Code"
+        android:layout_below="@id/PhoneEd"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_height="50dp"
+        android:hint="@string/Code"
+        android:inputType="text"
+        android:gravity="center"
+        android:background="@drawable/getcode_drawable"
+        android:layout_width="150dp"/>
+    
+    <Button 
+        android:id="@+id/getCode"
+        android:layout_height="50dp"
+        android:layout_width="100dp"
+        android:layout_below="@id/PhoneEd"
+        android:textColor="#499BF7"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="30dp"
+        android:text="@string/getCode"
+        android:background="@drawable/getcode_drawable"/>
+    
+    <Button 
+        android:id="@+id/Indentity"
+        android:layout_height="50dp"
+        android:layout_width="match_parent"
+		android:layout_marginLeft="10dp"
+		android:layout_marginRight="30dp"
+		android:layout_marginTop="10dp"
+		android:text="@string/Indentity"
+		android:textColor="#FFFFFF"
+		android:background="@drawable/identity_drawable"
+        android:layout_below="@id/getCode"/>
+</RelativeLayout>

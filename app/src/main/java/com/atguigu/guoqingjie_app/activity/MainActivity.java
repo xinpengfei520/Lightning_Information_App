@@ -61,7 +61,6 @@ public class MainActivity extends SlidingFragmentActivity {
                     Log.e("TAG", "handleMessage()");
                     break;
             }
-
         }
     };
 
@@ -69,22 +68,22 @@ public class MainActivity extends SlidingFragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //1.设置主页面
+        // 1.设置主页面
         setContentView(R.layout.activity_main);
 
-        //2.设置左侧菜单
+        // 2.设置左侧菜单
         setBehindContentView(R.layout.leftmenu);
 
-        //3.获取slidingMenu对象
+        // 3.获取slidingMenu对象
         SlidingMenu slidingMenu = getSlidingMenu();
 
-        //4.设置支持滑动的模式：左右可滑动
-        slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        //4.设置支持滑动的模式:不可以滑动,全屏滑动,边缘滑动
+        slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
 
-        //5.设置页面模式：左侧菜单+主页面
+        // 5.设置页面模式：左侧菜单+主页面
         slidingMenu.setMode(SlidingMenu.LEFT);
 
-        //6.设置占主页面的宽度
+        // 6.设置占主页面的宽度
         slidingMenu.setBehindOffset(DensityUtil.dip2px(200));
 
         tv_title = (TextView) findViewById(R.id.tv_title);
@@ -92,10 +91,10 @@ public class MainActivity extends SlidingFragmentActivity {
 
         initFragment();
 
-        //设置RadioGroup状态改变的监听
+        // 设置RadioGroup状态改变的监听
         rg_main.setOnCheckedChangeListener(new MyOnCheckedChangeListener());
 
-        rg_main.check(R.id.rb_news);//打开软件默认在news页面
+        rg_main.check(R.id.rb_news); // 打开软件默认在news页面
 
     }
 
@@ -106,6 +105,10 @@ public class MainActivity extends SlidingFragmentActivity {
      */
     public void iv_menu(View v) {
 
+        //2.左侧菜单收起
+//        MainActivity mainActivity = (MainActivity) context;
+        MainActivity mainActivity = MainActivity.this;
+        mainActivity.getSlidingMenu().toggle(); // 开<->关
     }
 
     /**
@@ -144,10 +147,10 @@ public class MainActivity extends SlidingFragmentActivity {
 //        transaction.commit();
 
         fragments = new ArrayList<>();
-        fragments.add(new NewsFragment());//新闻
-        fragments.add(new BeautyFragment());//美图
-        fragments.add(new VideoFragment());//视频
-        fragments.add(new AboutFragment());//关于
+        fragments.add(new NewsFragment());  // 新闻
+        fragments.add(new BeautyFragment());// 美图
+        fragments.add(new VideoFragment()); // 视频
+        fragments.add(new AboutFragment()); // 关于
     }
 
     private class MyOnCheckedChangeListener implements RadioGroup.OnCheckedChangeListener {
@@ -189,22 +192,22 @@ public class MainActivity extends SlidingFragmentActivity {
              */
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-            if (!toFragment.isAdded()) {//如果要显示的Fragment没有添加就添加
-                //隐藏之前显示的fromFragment
-                if (fromFragment != null) {//隐藏之前先判空
+            if (!toFragment.isAdded()) { // 如果要显示的Fragment没有添加就添加
+                // 隐藏之前显示的fromFragment
+                if (fromFragment != null) { // 隐藏之前先判空
                     transaction.hide(fromFragment);
                 }
-                //添加toFragment到容器，并提交
+                // 添加toFragment到容器，并提交
                 transaction.add(R.id.fl_main_container, toFragment).commit();
-            } else {//如果添加过了，就隐藏当前的，显示下一个
-                //隐藏之前显示的fromFragment
+            } else { // 如果添加过了，就隐藏当前的，显示下一个
+                // 隐藏之前显示的fromFragment
                 if (fromFragment != null) {
                     transaction.hide(fromFragment);
                 }
-                //显示toFragment
+                // 显示toFragment
                 transaction.show(toFragment).commit();
             }
-            content = toFragment;//当前显示的Fragment
+            content = toFragment; // 当前显示的Fragment
         }
     }
 
@@ -214,30 +217,23 @@ public class MainActivity extends SlidingFragmentActivity {
         if (flag) {
             flag = false;
             Toast.makeText(MainActivity.this, "再点击一次返回键退出", Toast.LENGTH_SHORT).show();
-            //发送一个延迟消息
-
+            // 发送一个延迟消息
             handler.sendEmptyMessageDelayed(1, 2000);
             return true;
         }
-
         return super.onKeyUp(keyCode, event);
     }
 
     @Override
     protected void onDestroy() {
-
-        Log.e("TAG", "onDestroy()");
-        //方式一：
-        handler.removeMessages(1);
-        //方式二：移除所有消息和回调
-//      handler.removeCallbacksAndMessages(null);
-
         super.onDestroy();
+        Log.e("TAG", "onDestroy()");
+        // 移除所有消息和回调
+        handler.removeCallbacksAndMessages(null);
     }
 
     /**
      * 得到左侧菜单
-     * @return
      */
     public LeftMenuFragment getLeftMenuFragment() {
         return (LeftMenuFragment) getSupportFragmentManager().findFragmentByTag(LEFTMEMU_TAG);
@@ -245,7 +241,6 @@ public class MainActivity extends SlidingFragmentActivity {
 
     /**
      * 得到ContentFragment
-     * @return
      */
     public ContentFragment getContentFragment() {
         return (ContentFragment) getSupportFragmentManager().findFragmentByTag(CONTENT_TAG);

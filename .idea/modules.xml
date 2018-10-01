@@ -2,17 +2,35 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/BigBang_demo/BigBang_demo.iml" filepath="$PROJECT_DIR$/BigBang_demo/BigBang_demo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/GitClub_demo/GitClub_demo.iml" filepath="$PROJECT_DIR$/GitClub_demo/GitClub_demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AndroidMVP-master/AndroidMVP-master.iml" filepath="$PROJECT_DIR$/AndroidMVP-master/AndroidMVP-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CodeCafe/CodeCafe.iml" filepath="$PROJECT_DIR$/CodeCafe/CodeCafe.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CoordinatorLayout-master/CoordinatorLayout-master.iml" filepath="$PROJECT_DIR$/CoordinatorLayout-master/CoordinatorLayout-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CoordinatorLayoutDemo/CoordinatorLayoutDemo.iml" filepath="$PROJECT_DIR$/CoordinatorLayoutDemo/CoordinatorLayoutDemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CoordinatorLayoutDemos-master/CoordinatorLayoutDemos-master.iml" filepath="$PROJECT_DIR$/CoordinatorLayoutDemos-master/CoordinatorLayoutDemos-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DialogActivityTest/DialogActivityTest.iml" filepath="$PROJECT_DIR$/DialogActivityTest/DialogActivityTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/EasyRecyclerView/EasyRecyclerView.iml" filepath="$PROJECT_DIR$/EasyRecyclerView/EasyRecyclerView.iml" />
+      <module fileurl="file://$PROJECT_DIR$/EasyRecycler_libary/EasyRecycler_libary.iml" filepath="$PROJECT_DIR$/EasyRecycler_libary/EasyRecycler_libary.iml" />
       <module fileurl="file://$PROJECT_DIR$/GuoQingJie_App.iml" filepath="$PROJECT_DIR$/GuoQingJie_App.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LaunchModeDemo/LaunchModeDemo.iml" filepath="$PROJECT_DIR$/LaunchModeDemo/LaunchModeDemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/Loading_demo/Loading_demo.iml" filepath="$PROJECT_DIR$/Loading_demo/Loading_demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MaterialDesignDemo-master/MaterialDesignDemo-master.iml" filepath="$PROJECT_DIR$/MaterialDesignDemo-master/MaterialDesignDemo-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RecyclerViewSample/RecyclerViewSample.iml" filepath="$PROJECT_DIR$/RecyclerViewSample/RecyclerViewSample.iml" />
       <module fileurl="file://$PROJECT_DIR$/RefreshListView/RefreshListView.iml" filepath="$PROJECT_DIR$/RefreshListView/RefreshListView.iml" />
       <module fileurl="file://$PROJECT_DIR$/SlidingMenu_library/SlidingMenu_library.iml" filepath="$PROJECT_DIR$/SlidingMenu_library/SlidingMenu_library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TheMVP_demo/TheMVP_demo.iml" filepath="$PROJECT_DIR$/TheMVP_demo/TheMVP_demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/adapter/adapter.iml" filepath="$PROJECT_DIR$/adapter/adapter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/api/api.iml" filepath="$PROJECT_DIR$/api/api.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/base/base.iml" filepath="$PROJECT_DIR$/base/base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/crash/crash.iml" filepath="$PROJECT_DIR$/crash/crash.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gallery/gallery.iml" filepath="$PROJECT_DIR$/gallery/gallery.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libqrcode/libqrcode.iml" filepath="$PROJECT_DIR$/libqrcode/libqrcode.iml" />
       <module fileurl="file://$PROJECT_DIR$/loadingviewlib/loadingviewlib.iml" filepath="$PROJECT_DIR$/loadingviewlib/loadingviewlib.iml" />
-      <module fileurl="file://$PROJECT_DIR$/nolistadapter-common/nolistadapter-common.iml" filepath="$PROJECT_DIR$/nolistadapter-common/nolistadapter-common.iml" />
-      <module fileurl="file://$PROJECT_DIR$/nolistadapter-rv/nolistadapter-rv.iml" filepath="$PROJECT_DIR$/nolistadapter-rv/nolistadapter-rv.iml" />
-      <module fileurl="file://$PROJECT_DIR$/recyclertreeview-lib/recyclertreeview-lib.iml" filepath="$PROJECT_DIR$/recyclertreeview-lib/recyclertreeview-lib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/model/model.iml" filepath="$PROJECT_DIR$/model/model.iml" />
+      <module fileurl="file://$PROJECT_DIR$/my_app_zxing/my_app_zxing.iml" filepath="$PROJECT_DIR$/my_app_zxing/my_app_zxing.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sMS/sMS.iml" filepath="$PROJECT_DIR$/sMS/sMS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/themvp/themvp.iml" filepath="$PROJECT_DIR$/themvp/themvp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/viewPagerText/viewPagerText.iml" filepath="$PROJECT_DIR$/viewPagerText/viewPagerText.iml" />
       <module fileurl="file://$PROJECT_DIR$/xutils/xutils.iml" filepath="$PROJECT_DIR$/xutils/xutils.iml" />
     </modules>
   </component>

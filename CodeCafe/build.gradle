@@ -1,0 +1,44 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion '24.0.2'
+
+    defaultConfig {
+        applicationId "top.codecafe"
+        minSdkVersion 16
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:palette-v7:24.2.0'
+    compile project(':adapter')
+    compile project(':crash')
+    compile project(':base')
+    compile project(':api')
+    compile project(':model')
+    compile project(':gallery')
+    compile 'com.balysv.materialmenu:material-menu-toolbar:1.5.4'
+    compile 'com.kymjs.rxvolley:okhttp:1.0.9'
+    compile 'com.kymjs.rxvolley:bitmapcore:1.0.9'
+    compile 'com.kymjs.rxvolley:rxvolley:1.0.9'
+//    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3.1'
+//    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    compile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    // or 1.4-beta1
+//    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3.1'
+    // or 1.4-beta1
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+}

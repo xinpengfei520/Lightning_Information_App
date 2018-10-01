@@ -29,7 +29,7 @@ dependencies {
     compile files('libs/gson-2.1.jar')
     compile project(':RefreshListView')
     compile project(':xutils')
-    //    compile "com.android.support:support-core-utils:24.2.0"
+    compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.android.support:support-v4:24.2.0'
     compile project(':SlidingMenu_library')
 }

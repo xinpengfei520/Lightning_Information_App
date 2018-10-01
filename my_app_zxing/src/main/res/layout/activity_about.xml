@@ -1,0 +1,42 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:text="Welcome..."
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/tv_about_version"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/holo_orange_dark"
+        android:gravity="right"
+        android:text="Version v1.0"
+        android:textColor="#0000ff" />
+
+    <TextView
+        android:id="@+id/tv_about_design"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/tv_about_version"
+        android:background="@android:color/holo_orange_dark"
+        android:gravity="right"
+        android:text="design by xinpengfei"
+        android:textColor="#0000ff" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/tv_about_design"
+        android:paddingBottom="80dp"
+        android:src="@drawable/weixin" />
+
+
+</RelativeLayout>

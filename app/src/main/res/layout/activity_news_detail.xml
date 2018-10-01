@@ -7,7 +7,24 @@
     android:orientation="vertical"
     tools:context="com.atguigu.guoqingjie_app.activity.NewsDetailActivity">
 
-    <!--<include layout="@layout/titlebar"/>-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:id="@+id/tv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:background="@null"
+            android:drawableLeft="@drawable/back"
+            android:drawablePadding="5dp"
+            android:text="返回"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
